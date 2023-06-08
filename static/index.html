@@ -10,20 +10,21 @@
 
 <body>
   <div class="memo-input">
-    <form>
+    <form id="memo-form" method="post">
       <label for="memo">
         <span class="sr-only">메모 입력</span>
       </label>
-      <input type="text" id="memo" required>
+      <textarea name="memo" id="memo" required></textarea>
       <button type="submit">제출하기</button>
     </form>
   </div>
 
   <div class="memo-output">
     <ul>
-      <li>메모 결과물</li>
+      <!-- SERVER DATA -->
     </ul>
   </div>
+  <script src="./index.js"></script>
 </body>
 
 </html>
