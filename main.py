@@ -15,9 +15,17 @@ def get_memo():
   return memos
 
 @app.post('/memo/create')
-def create_memo(memo:Memo):
-  memos.append(memo)
+def create_memo(data:Memo):
+  memos.append(data)
   return '200 ok'
+
+@app.put('/memo/{id}')
+def update_memo(data:Memo):
+  for memo in memos: 
+    if memo.id == data.id:
+      memo.content = data.content
+      return '성공'
+  return '메모가 없습니다.'
 
 
 app.mount('/', StaticFiles(directory='static', html=True), name='index');
