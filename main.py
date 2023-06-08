@@ -27,5 +27,14 @@ def update_memo(data:Memo):
       return '성공'
   return '메모가 없습니다.'
 
+@app.delete('/memo/{id}')
+def delete_memo(id):
+  for index, memo in enumerate(memos): 
+    if memo.id == int(id):
+      memos.pop(index)
+      return '성공'
+  return '메모가 없습니다.'
+
+
 
 app.mount('/', StaticFiles(directory='static', html=True), name='index');

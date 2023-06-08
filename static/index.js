@@ -15,13 +15,21 @@ async function displayMemo() {
 		const btn = document.createElement('button');
 		btn.type = 'button';
 
+		const deleteBtnText = document.createElement('span');
+		deleteBtnText.classList.add('sr-only');
+		deleteBtnText.textContent = '삭제하기';
+
+		const deleteBtn = document.createElement('button');
+		deleteBtn.type = 'button';
+
 		const textarea = document.createElement('textarea');
 		textarea.dataset.id = memo.id;
 		textarea.value = memo.content;
 		textarea.disabled = true;
 
+		deleteBtn.append(deleteBtnText);
 		btn.append(btnText);
-		li.append(textarea, btn);
+		li.append(textarea, btn, deleteBtn);
 		ul.append(li);
 	});
 }
@@ -73,6 +81,15 @@ async function updateMemo(textarea, btnText) {
 	btnText.textContent = '수정하기';
 }
 
+async function deleteMemo(textarea) {
+	const id = textarea.dataset.id;
+	const res = await fetch(`/memo/${id}`, { method: 'DELETE' });
+
+	if (!res.ok) throw Error(`${res.status} ${res.statusText}`);
+	alert('메모가 삭제되었습니다');
+	displayMemo();
+}
+
 function enabledMemo(textarea, btnText) {
 	textarea.disabled = false;
 	btnText.textContent = '전송하기';
@@ -81,13 +98,24 @@ function enabledMemo(textarea, btnText) {
 function handleMemo(e) {
 	if (e.target.tagName !== 'BUTTON') return;
 	const btn = e.target;
-	const textarea = btn.previousElementSibling;
 	const btnText = btn.querySelector('span');
+	let textarea;
 
-	if (btnText.textContent === '수정하기') {
-		enabledMemo(textarea, btnText);
-	} else {
-		updateMemo(textarea, btnText);
+	switch (true) {
+		case btnText.textContent === '수정하기':
+			textarea = btn.previousElementSibling;
+			enabledMemo(textarea, btnText);
+			break;
+		case btnText.textContent === '전송하기':
+			textarea = btn.previousElementSibling;
+			updateMemo(textarea, btnText);
+			break;
+		case btnText.textContent === '삭제하기':
+			textarea = btn.previousElementSibling.previousElementSibling;
+			deleteMemo(textarea);
+			break;
+		default:
+			break;
 	}
 }
 
