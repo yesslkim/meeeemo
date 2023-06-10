@@ -16,11 +16,18 @@
 <body>
   <div class="memo-input">
     <form id="memo-form" method="post">
-      <label for="memo">
-        <span class="sr-only">메모 입력</span>
-      </label>
-      <textarea name="memo" id="memo" required></textarea>
-      <button type="submit">제출하기</button>
+      <label for="title" class="sr-only">타이틀</label>
+      <input type="text" id="title" name="title">
+
+      <label for="content" class="sr-only">메모</label>
+      <textarea name="content" id="content" required></textarea>
+
+      <label for="image"><span class="sr-only">이미지</span></label>
+      <input type="file" name="image" id="image" class="sr-only">
+
+      <button type="submit">
+        <span class="sr-only">제출하기</span>
+      </button>
     </form>
   </div>
 
